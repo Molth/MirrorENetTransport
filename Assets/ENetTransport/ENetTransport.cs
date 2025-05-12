@@ -51,7 +51,7 @@ namespace ENetTransport
                                 Token = command.Token
                             };
 
-                            free(command.Address);
+                            enet_free(command.Address);
 
                             if (NetworkServer.active)
                             {
@@ -193,7 +193,7 @@ namespace ENetTransport
                             enet_peer_ping_interval(peer, peerOptions.PingInterval);
                             enet_peer_timeout(peer, peerOptions.TimeoutLimit, peerOptions.TimeoutMinimum, peerOptions.TimeoutMinimum);
 
-                            free(command.Address);
+                            enet_free(command.Address);
 
                             break;
                         case ENetEventType.ENET_EVENT_TYPE_DISCONNECT:
@@ -237,7 +237,7 @@ namespace ENetTransport
 
                             command.EventType = (ushort)ENetEventType.ENET_EVENT_TYPE_CONNECT;
 
-                            command.Address = (ENetAddress*)malloc((nuint)sizeof(ENetAddress));
+                            command.Address = (ENetAddress*)enet_malloc((nuint)sizeof(ENetAddress));
                             *command.Address = peer->address;
 
                             _incomingCommands.Enqueue(command);
@@ -313,7 +313,7 @@ namespace ENetTransport
 
                     StartENetHost(false);
 
-                    var addr = (ENetAddress*)malloc((nuint)sizeof(ENetAddress));
+                    var addr = (ENetAddress*)enet_malloc((nuint)sizeof(ENetAddress));
                     *addr = a;
 
                     var command = new ENetTransportCommand();
